@@ -62,4 +62,71 @@ console.log(personalMovieDB); */
 
 'use strict';
 
-// Код возьмите из предыдущего домашнего задания
+const numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', 0);
+
+const personalMovieDB = {
+    count: numberOfFilms,
+    movies: {},
+    actors: {},
+    genres: [],
+    privat: false
+};
+
+// loop 1 -------------------------------------------------------------------------
+
+for (let i = 0; i < 2; i++) {
+    const lastFilm = prompt('Один из последних просмотренных фильмов?', ''),
+          filmRaiting = +prompt('На сколько оцените его?', '');
+    
+    if (lastFilm !== null && filmRaiting !== null && lastFilm !== '' && filmRaiting !== '' && lastFilm.length < 50) {
+        personalMovieDB.movies[lastFilm] = filmRaiting;
+    } else {
+        console.log('error');
+        i--;
+    }
+}
+
+// loop 2 -------------------------------------------------------------------------
+
+// let i = 0;
+// do {
+//     const lastFilm = prompt('Один из последних просмотренных фильмов?', ''),
+//           filmRaiting = +prompt('На сколько оцените его?', '');
+//     i++;
+
+//     if (lastFilm !== null && filmRaiting !== null && lastFilm !== '' && filmRaiting !== '' && lastFilm.length < 50) {
+//                 personalMovieDB.movies[lastFilm] = filmRaiting;
+//             } else {
+//                 console.log('error');
+//                 i--;
+//             }
+// } while (i < 2);
+
+// loop 3 -------------------------------------------------------------------------
+
+// let i = 0;
+// while (i < 2) {
+//     const lastFilm = prompt('Один из последних просмотренных фильмов?', ''),
+//           filmRaiting = +prompt('На сколько оцените его?', '');
+//     i++;
+
+//     if (lastFilm !== null && filmRaiting !== null && lastFilm !== '' && filmRaiting !== '' && lastFilm.length < 50) {
+//                 personalMovieDB.movies[lastFilm] = filmRaiting;
+//             } else {
+//                 console.log('error');
+//                 i--;
+//     }
+// }
+
+
+if (personalMovieDB.count < 10) {
+    console.log('Просмотрено довольно мало фильмов');
+} else if (personalMovieDB.count >= 10 && personalMovieDB.count < 30) {
+    console.log('Вы классический зритель');
+} else if (personalMovieDB.count >= 30) {
+    console.log('Вы киноман');
+} else {
+    console.log('Произошла ошибка');
+}
+
+console.log(personalMovieDB); 
