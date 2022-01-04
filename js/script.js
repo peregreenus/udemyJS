@@ -209,6 +209,7 @@ P.S. Функции вызывать не обязательно*/
 
 //*************************************************************** */
 
+// Homework 5
 
 /* Задания на урок:
 
@@ -226,6 +227,24 @@ P.S. Функции вызывать не обязательно*/
 
 // 'use strict';
 
+// Homework 6
+/* Задания на урок:
+
+1) Реализовать функционал, что после заполнения формы и нажатия кнопки "Подтвердить" - 
+новый фильм добавляется в список. Страница не должна перезагружаться.
+Новый фильм должен добавляться в movieDB.movies.
+Для получения доступа к значению input - обращаемся к нему как input.value;
+P.S. Здесь есть несколько вариантов решения задачи, принимается любой, но рабочий.
+
+2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
+
+3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
+
+4) Если в форме стоит галочка "Сделать любимым" - в консоль вывести сообщение: 
+"Добавляем любимый фильм"
+
+5) Фильмы должны быть отсортированы по алфавиту */
+
 const movieDB = {
     movies: [
         "Логан",
@@ -239,11 +258,75 @@ const movieDB = {
 const commercial = document.querySelectorAll('.promo__adv > img');
 const promoGenre = document.querySelector('.promo__genre');
 const bg = document.querySelector('.promo__bg');
-const filmListItems = document.querySelectorAll('.promo__interactive-item');
 
+const filmListItems = document.querySelector('.promo__interactive-list');
+const btn = document.querySelector('button');
+const checkbox = document.querySelector('[type="checkbox"]');
+const input = document.querySelector('.adding__input');
 
-commercial.forEach(item => item.remove()); // 1 exersize
-promoGenre.textContent = 'ДРАМА'; // 2 exersize
-bg.style.background = 'url(../img/bg.jpg)'; // 3 exersize
+commercial.forEach(item => item.remove()); // 1 exersise
+promoGenre.textContent = 'ДРАМА'; // 2 exersise
+bg.style.background = 'url(../img/bg.jpg)'; // 3 exersise
+filmListItems.innerHTML = '';
 movieDB.movies.sort();
-filmListItems.forEach((item, i) => item.textContent = `${i + 1}. ${movieDB.movies[i]}`); // 4 and 5 exersize
+
+//CHECKBOX check
+
+// checkbox.addEventListener('change', () => {
+//     if (checkbox.checked) {
+//         console.log('Добавляем любимый фильм');
+//     }
+// });
+
+// DELETE ITEMS
+
+function deleteFilm() {
+    const deleteItemBtns = document.querySelectorAll('.delete');
+
+    deleteItemBtns.forEach((item, i) => {
+        item.addEventListener('click', () => {
+            movieDB.movies.splice(i, 1);
+            makeFilmList();
+        });
+    });
+}
+
+// START RENDER WITH NEW INPUT.VALUE
+
+btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    filmListItems.innerHTML = '';
+    makeFilmList();
+    input.value = '';
+});
+
+
+function makeFilmList() {
+    filmListItems.innerHTML = '';
+    if (input.value) {
+        if (input.value.length > 21) {
+            input.value = input.value.slice(0, 21) + '...';
+        }
+
+        if (checkbox.checked) {
+            console.log('Добавляем любимый фильм');
+            checkbox.checked = false;
+        }
+
+        movieDB.movies.push(input.value);
+        movieDB.movies.sort();
+    }
+
+    movieDB.movies.forEach((film, i) => {
+        filmListItems.insertAdjacentHTML('beforeend', `
+            <li class="promo__interactive-item">
+                ${i + 1}. ${film}
+                <div class="delete"></div>
+            </li>
+        `
+        );
+    });
+    deleteFilm();
+}
+
+makeFilmList();
