@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+    'use strict';
 
     // TABS ------------------------------------------------->
 
@@ -71,10 +72,13 @@ window.addEventListener('DOMContentLoaded', () => {
         const seconds = document.querySelector('#seconds');
         const timeInterval = setInterval(updateClock, 1000);
 
+
         updateClock();
+
 
         function updateClock() {
             const t = getTimeRemaining(endtime);
+
 
             days.innerHTML = getZero(t.days);
             hours.innerHTML = getZero(t.hours);
@@ -89,7 +93,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     setClock('.timer', deadline);
-
 
 
 });
