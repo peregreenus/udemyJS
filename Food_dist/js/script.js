@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // TIMER ---------------------------------------------------->
 
-    const deadline = '2022-01-18';
+    const deadline = '2022-02-10';
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - new Date();
@@ -93,6 +93,73 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     setClock('.timer', deadline);
+
+
+    // MODAL 
+
+    // my solution <----------------------------------------------------
+
+    // const btns = document.querySelectorAll('button');
+    // const modal = document.querySelector('.modal');
+
+    // btns.forEach(btn => {
+    //     btn.addEventListener('click', (e) => {
+    //         if (e.target.hasAttribute('data-modal')) {
+    //             modal.style.display = 'block';
+    //         }
+    //     });
+    // });
+
+    // modal.addEventListener('click', (e) => {
+    //     if (e.target.hasAttribute('data-close')) {
+    //         modal.style.display = 'none';
+    //     }
+    // });
+
+    //------------------------------------------------------------------>
+
+    const btnsModal = document.querySelectorAll('[data-modal]');
+    const modal = document.querySelector('.modal');
+    const closeModalBtn = document.querySelector('[data-close]');
+
+    function openModal() {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+        clearTimeout(modalTimerId);
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    btnsModal.forEach(btn => {
+        btn.addEventListener('click', openModal);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === closeModalBtn || e.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Escape') {
+            closeModal();
+        }
+    });
+
+    function openModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            openModal();
+            window.removeEventListener('scroll', openModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', openModalByScroll);
+
+    const modalTimerId = setTimeout(openModal, 5000);
 
 
 });
